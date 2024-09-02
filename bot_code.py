@@ -67,6 +67,7 @@ async def stop(call: types.CallbackQuery):
 @rt.callback_query(F.data == "disconnect")
 async def disconnect(call: types.CallbackQuery):
     await delete_chat(call.from_user.id)
+    
 
     markup = InlineKeyboardBuilder()
     markup.button(text="Подключиться", callback_data="connect")
@@ -83,11 +84,14 @@ async def disconnect(message: types.Message, bot: Bot):
 
     markup = InlineKeyboardBuilder()
     markup.button(text="Подключиться", callback_data="connect")
+    kb = types.ReplyKeyboardRemove()
 
-    await message.answer("Вы отключены!", reply_markup=markup.as_markup())
+    await message.answer("Вы отключены!", reply_markup=kb)
+    await message.answer("Нажми кнопку, чтобы подключиться к чату", reply_markup=markup.as_markup())
 
 
 @rt.message(F.text)
 async def anonim_send(message: types.Message, bot: Bot):
+    
     chat = await get_chat(message.chat.id)
     await bot.send_message(chat[1], message.text)
