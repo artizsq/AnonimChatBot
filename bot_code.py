@@ -80,24 +80,24 @@ async def disconnect(call: types.CallbackQuery):
 
 @rt.message(F.text == "Отключиться")
 async def disconnect(message: types.Message, bot: Bot):
+    chat = await get_chat(message.chat.id)
     await message.delete()
-    await delete_chat(message.from_user.id)
+    
 
     markup = InlineKeyboardBuilder()
     markup.button(text="Подключиться", callback_data="connect")
     kb = types.ReplyKeyboardRemove()
 
     await message.answer("Вы отключены!", reply_markup=kb)
-    await bot.send_message(message.from_user.id, "Собеседник отключился!", reply_markup=markup.as_markup())
+    await bot.send_message(chat[1], "Собеседник отключился!", reply_markup=kb)
+
+    
+    await bot.send_message(chat[1], "Нажми кнопку, чтобы подключиться к чату", reply_markup=markup.as_markup())
     await message.answer("Нажми кнопку, чтобы подключиться к чату", reply_markup=markup.as_markup())
+    await delete_chat(message.from_user.id)
+    
 
 
-@rt.message(Command("get"))
-async def get(message: types.Message, bot: Bot):
-    userid = 929539743
-    user = await bot.get_chat(userid)
-
-    await message.answer(user.username)
 
 @rt.message(F.text)
 async def anonim_send(message: types.Message, bot: Bot):
