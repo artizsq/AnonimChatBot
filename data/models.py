@@ -11,6 +11,12 @@ async_session = async_sessionmaker(engine)
 class Base(AsyncAttrs, DeclarativeBase):
     pass
 
+class User(Base):
+    __tablename__ = 'users'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[BigInteger] = mapped_column()
+
 class Queue(Base):
     __tablename__ = 'queue'
     

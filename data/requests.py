@@ -1,4 +1,4 @@
-from data.models import Queue, Chats
+from data.models import Queue, Chats, User
 from data.models import async_session
 from sqlalchemy import select
 
@@ -47,3 +47,14 @@ async def delete_chat(user_id):
             if chat:
                 await session.delete(chat)
                 await session.commit()
+
+
+async def set_user(user_id):
+        async with async_session() as session:
+            user = await session.scalar(select(User).where(User.user_id == user_id))
+            
+            if not user:
+                user = User(user_id=user_id)
+                session.add(user)
+                await session.commit()
+                return True
