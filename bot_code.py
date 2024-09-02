@@ -93,6 +93,8 @@ async def disconnect(message: types.Message, bot: Bot):
 
 @rt.message(F.text)
 async def anonim_send(message: types.Message, bot: Bot):
-    
-    chat = await get_chat(message.chat.id)
-    await bot.send_message(chat[1], message.text)
+    try:
+        chat = await get_chat(message.chat.id)
+        await bot.send_message(chat[1], message.text)
+    except TypeError:
+        pass
