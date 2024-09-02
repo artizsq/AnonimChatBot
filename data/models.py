@@ -15,7 +15,7 @@ class User(Base):
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[BigInteger] = mapped_column()
+    user_id = mapped_column(BigInteger)
 
 class Queue(Base):
     __tablename__ = 'queue'
