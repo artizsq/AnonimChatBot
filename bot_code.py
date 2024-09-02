@@ -1,13 +1,14 @@
 from aiogram import F, Bot, Router, types
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from data.requests import get_queue, create_chat, get_chat, delete_chat, delete_queue, add_queue
+from data.requests import get_queue, create_chat, get_chat, delete_chat, delete_queue, add_queue, set_user
 
 rt = Router()
 
 
 @rt.message(Command("start"))
 async def start(message: types.Message):
+    await set_user(message.from_user.id)
     kb = InlineKeyboardBuilder()
     kb.button(text="Подключиться", callback_data="connect")
     await message.answer("Нажми кнопку, чтобы подключиться к чату", reply_markup=kb.as_markup())
