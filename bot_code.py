@@ -1,6 +1,7 @@
 from aiogram import F, Bot, Router, types
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from exc import IsChat
 from data.requests import get_queue, create_chat, get_chat, delete_chat, delete_queue, add_queue, set_user
 
 rt = Router()
@@ -99,10 +100,7 @@ async def disconnect(message: types.Message, bot: Bot):
 
 
 
-@rt.message(F.text)
+@rt.message(F.text, IsChat())
 async def anonim_send(message: types.Message, bot: Bot):
-    try:
-        chat = await get_chat(message.chat.id)
-        await bot.send_message(chat[1], message.text)
-    except TypeError:
-        pass
+    chat = await get_chat(message.chat.id)
+    await bot.send_message(chat[1], message.text)
